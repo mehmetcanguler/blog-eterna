@@ -34,5 +34,11 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    'netgsm' => [
+        'username' => env('NETGSM_USERNAME'),
+        'password' => env('NETGSM_PASSWORD'),
+        'url' => env('NETGSM_URL', 'https://api.netgsm.com.tr/sms/rest/v2/send'),
+        'header' => env('NETGSM_HEADER', 'BLOG'),
+    ],
 
 ];
