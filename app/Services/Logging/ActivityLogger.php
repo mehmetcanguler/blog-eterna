@@ -3,7 +3,6 @@
 namespace App\Services\Logging;
 
 use App\Contracts\Logging\Loggable;
-use App\Enums\ModelEvent;
 use Auth;
 
 class ActivityLogger implements Loggable

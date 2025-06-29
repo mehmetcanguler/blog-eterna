@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\ErrorMessages;
 use App\Enums\LoginType;
 use App\Exceptions\EmailNotVerifiedException;
 use App\Exceptions\PhoneNotVerifiedException;
@@ -22,11 +21,11 @@ class EnsureContactIsVerified
     {
         $user = Auth::user();
 
-        if ($user->login_type === LoginType::EMAIL && !$request->user()->hasVerifiedEmail()) {
-            throw new EmailNotVerifiedException();
+        if ($user->login_type === LoginType::EMAIL && ! $request->user()->hasVerifiedEmail()) {
+            throw new EmailNotVerifiedException;
         }
-        if ($user->login_type === LoginType::PHONE && !$request->user()->hasVerifiedPhone()) {
-            throw new PhoneNotVerifiedException();
+        if ($user->login_type === LoginType::PHONE && ! $request->user()->hasVerifiedPhone()) {
+            throw new PhoneNotVerifiedException;
         }
 
         return $next($request);

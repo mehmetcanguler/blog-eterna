@@ -6,7 +6,7 @@ use App\Contracts\External\SmsServiceInterface;
 
 class DevelopmentLogSmsService implements SmsServiceInterface
 {
-    public function sendTo(string $number, string $message, string|null $header = null): array
+    public function sendTo(string $number, string $message, ?string $header = null): array
     {
         $data = [
             'number' => $number,

@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+
 /**
  * Handler içerisinde özel exceptionları yakalayabilmemiz için yazdığımız base exception sınıfı
  */

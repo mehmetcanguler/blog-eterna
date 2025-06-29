@@ -7,14 +7,14 @@ trait BaseEnum
     public static function labels(): array
     {
         return array_combine(
-            array_map(fn($case) => $case->value, self::cases()),
-            array_map(fn($case) => $case->label(), self::cases())
+            array_map(fn ($case) => $case->value, self::cases()),
+            array_map(fn ($case) => $case->label(), self::cases())
         );
     }
 
     public static function toArray(): array
     {
-        return array_map(fn($case) => [
+        return array_map(fn ($case) => [
             'name' => $case->name,
             'value' => $case->value,
             'label' => $case->label(),
@@ -39,7 +39,7 @@ trait BaseEnum
 
     public static function names(): array
     {
-        return array_map(fn($case) => $case->name, self::cases());
+        return array_map(fn ($case) => $case->name, self::cases());
     }
 
     abstract public function label(): string;

@@ -18,7 +18,7 @@ class RandomHelper
 
     public static function createRandomCode()
     {
-        return self::randomChar() . rand(100000, 999999);
+        return self::randomChar().rand(100000, 999999);
     }
 
     public static function randomChar()

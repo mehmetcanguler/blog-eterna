@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Enums\LoginType;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Observers\UserObserver;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +18,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasUuids, SoftDeletes, HasApiTokens, LogsActivity;
+    use HasApiTokens, HasFactory, HasUuids, LogsActivity, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -30,7 +30,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'phone',
-        'login_type'
+        'login_type',
     ];
 
     /**
@@ -54,12 +54,12 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'phone_verified_at' => 'datetime',
             'password' => 'hashed',
-            'login_type' => LoginType::class
+            'login_type' => LoginType::class,
         ];
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getActivitylogOptions(): \Spatie\Activitylog\LogOptions
     {

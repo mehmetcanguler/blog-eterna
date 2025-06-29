@@ -10,7 +10,6 @@ enum LoginType: int
     case EMAIL = 1;
     case PHONE = 2;
 
-
     public function label(): string
     {
         return match ($this) {

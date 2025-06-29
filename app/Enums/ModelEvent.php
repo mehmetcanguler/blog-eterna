@@ -13,7 +13,6 @@ enum ModelEvent: string
     case RESTORED = 'restored';
     case FORCE_DELETED = 'force_deleted';
 
-
     public function label(): string
     {
         return match ($this) {

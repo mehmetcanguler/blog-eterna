@@ -2,11 +2,6 @@
 
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Middleware\EnsureContactIsVerified;
-use App\Http\Middleware\VerifyAccountCheck;
-use App\Models\User;
-use Illuminate\Auth\Events\Verified;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verificationVerify'])->middleware(['signed'])->name('verification.verify');

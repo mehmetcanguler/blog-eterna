@@ -9,12 +9,11 @@ class RegisterDTO extends BaseDTO
 {
     public function __construct(
         public string $name,
-        public string|null $phone,
-        public string|null $email,
+        public ?string $phone,
+        public ?string $email,
         public string $password,
         public LoginType $loginType
-    ) {
-    }
+    ) {}
 
     public static function fromRequest(array $data): static
     {
@@ -26,6 +25,7 @@ class RegisterDTO extends BaseDTO
             LoginType::from($data['login_type'])
         );
     }
+
     public function toArray(): array
     {
         return [
@@ -33,7 +33,7 @@ class RegisterDTO extends BaseDTO
             'phone' => $this->phone,
             'email' => $this->email,
             'password' => $this->password,
-            'login_type' => $this->loginType
+            'login_type' => $this->loginType,
         ];
     }
 }

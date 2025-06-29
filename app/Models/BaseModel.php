@@ -9,7 +9,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class BaseModel extends Model
 {
-    use HasUuids, SoftDeletes, LogsActivity;
+    use HasUuids, LogsActivity, SoftDeletes;
 
     public function getActivitylogOptions(): \Spatie\Activitylog\LogOptions
     {

@@ -8,12 +8,11 @@ use App\Enums\LoginType;
 class LoginDTO extends BaseDTO
 {
     public function __construct(
-        public string|null $phone,
-        public string|null $email,
+        public ?string $phone,
+        public ?string $email,
         public string $password,
         public LoginType $loginType
-    ) {
-    }
+    ) {}
 
     public static function fromRequest(array $data): static
     {
@@ -31,7 +30,7 @@ class LoginDTO extends BaseDTO
             'email' => $this->email,
             'phone' => $this->phone,
             'password' => $this->password,
-            'login_type' => $this->loginType
+            'login_type' => $this->loginType,
         ];
     }
 }

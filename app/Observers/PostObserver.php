@@ -8,10 +8,8 @@ use App\Models\Post;
 
 class PostObserver
 {
-    public function __construct(protected Loggable $logger)
-    {
+    public function __construct(protected Loggable $logger) {}
 
-    }
     /**
      * Handle the Post "created" event.
      */
@@ -41,7 +39,7 @@ class PostObserver
      */
     public function restored(Post $post): void
     {
-       $this->logger->log($post, ModelEvent::RESTORED);
+        $this->logger->log($post, ModelEvent::RESTORED);
     }
 
     /**
@@ -49,6 +47,6 @@ class PostObserver
      */
     public function forceDeleted(Post $post): void
     {
-       $this->logger->log($post, ModelEvent::FORCE_DELETED);
+        $this->logger->log($post, ModelEvent::FORCE_DELETED);
     }
 }

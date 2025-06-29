@@ -7,8 +7,6 @@ use App\Contracts\Logging\Loggable;
 use App\Services\External\SmsService\DevelopmentLogSmsService;
 use App\Services\External\SmsService\NetgsmSmsService;
 use App\Services\Logging\ActivityLogger;
-use Illuminate\Auth\Notifications\VerifyEmail;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\ServiceProvider;
 
 class ServiceServiceProvider extends ServiceProvider

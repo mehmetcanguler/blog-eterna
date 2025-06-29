@@ -4,7 +4,6 @@ namespace App\Services\Internal;
 
 use App\Dtos\Auth\LoginDTO;
 use App\Dtos\Auth\RegisterDTO;
-use App\Enums\ErrorMessages;
 use App\Enums\LoginType;
 use App\Exceptions\EmailRequiredException;
 use App\Exceptions\InvalidCredentialsException;
@@ -18,10 +17,10 @@ class AuthService
     public function register(RegisterDTO $data): User
     {
         if ($data->loginType === LoginType::EMAIL && $data->email === null) {
-            throw new EmailRequiredException();
+            throw new EmailRequiredException;
         }
         if ($data->loginType === LoginType::PHONE && $data->phone === null) {
-            throw new PhoneRequiredException();
+            throw new PhoneRequiredException;
         }
 
         if ($data->loginType === LoginType::EMAIL) {
@@ -38,10 +37,10 @@ class AuthService
     public function login(LoginDTO $data)
     {
         if ($data->loginType === LoginType::EMAIL && $data->email === null) {
-            throw new EmailRequiredException();
+            throw new EmailRequiredException;
         }
         if ($data->loginType === LoginType::PHONE && $data->phone === null) {
-            throw new PhoneRequiredException();
+            throw new PhoneRequiredException;
         }
         if ($data->loginType === LoginType::EMAIL) {
             $data->phone = null;
@@ -50,15 +49,15 @@ class AuthService
         if ($data->loginType === LoginType::PHONE) {
             $data->email = null;
         }
-        if (!Auth::attempt($data->toArray())) {
-            throw new InvalidCredentialsException();
+        if (! Auth::attempt($data->toArray())) {
+            throw new InvalidCredentialsException;
         }
 
         $user = Auth::user();
 
         return [
             'token' => $user->createToken($user->email)->plainTextToken,
-            'user' => UserResource::make($user)
+            'user' => UserResource::make($user),
         ];
     }
 
@@ -66,5 +65,4 @@ class AuthService
     {
         Auth::user()->tokens()->delete();
     }
-
 }

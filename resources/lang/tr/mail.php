@@ -1,4 +1,5 @@
 <?php
+
 return [
     'verify_email_subject' => 'E-posta Adresinizi Doğrulayın',
 

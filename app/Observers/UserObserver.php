@@ -8,10 +8,8 @@ use App\Models\User;
 
 class UserObserver
 {
-    public function __construct(protected Loggable $logger)
-    {
+    public function __construct(protected Loggable $logger) {}
 
-    }
     /**
      * Handle the User "created" event.
      */

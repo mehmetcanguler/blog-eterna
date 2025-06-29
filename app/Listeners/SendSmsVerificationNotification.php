@@ -4,8 +4,6 @@ namespace App\Listeners;
 
 use App\Contracts\External\SmsServiceInterface;
 use App\Events\SmsVerificationRequested;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class SendSmsVerificationNotification
 {

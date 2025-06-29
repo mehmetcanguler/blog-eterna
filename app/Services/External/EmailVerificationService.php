@@ -2,14 +2,12 @@
 
 namespace App\Services\External;
 
-use App\Enums\ErrorMessages;
-use App\Exceptions\BadRequestException;
 use App\Exceptions\EmailAlreadyVerifiedException;
 use App\Exceptions\EmailNotVerifiedException;
 use App\Models\User;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Auth\Events\Verified;
 
 class EmailVerificationService
 {
@@ -20,6 +18,7 @@ class EmailVerificationService
     {
         //
     }
+
     /**
      * Kullanıcının e-postasının doğrulanıp doğrulanmadığını kontrol eder.
      */
@@ -35,12 +34,12 @@ class EmailVerificationService
     {
         $user = User::findOrFail($id);
 
-        if (!hash_equals($hash, sha1($user->getEmailForVerification()))) {
-            throw new EmailNotVerifiedException();
+        if (! hash_equals($hash, sha1($user->getEmailForVerification()))) {
+            throw new EmailNotVerifiedException;
         }
 
         if ($user->hasVerifiedEmail()) {
-            throw new EmailAlreadyVerifiedException();
+            throw new EmailAlreadyVerifiedException;
         }
 
         if ($user->markEmailAsVerified()) {
@@ -54,7 +53,7 @@ class EmailVerificationService
     public function sendVerification(Authenticatable $user): void
     {
         if ($this->isVerified($user)) {
-            throw new EmailAlreadyVerifiedException();
+            throw new EmailAlreadyVerifiedException;
         }
         $user->sendEmailVerificationNotification();
     }

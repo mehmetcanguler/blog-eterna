@@ -4,13 +4,15 @@ namespace App\Services\External\SmsService;
 
 use App\Contracts\External\SmsServiceInterface;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class NetgsmSmsService implements SmsServiceInterface
 {
     protected string $username;
+
     protected string $password;
+
     protected string $url;
+
     protected string $defaultHeader;
 
     public function __construct()
@@ -71,7 +73,7 @@ class NetgsmSmsService implements SmsServiceInterface
             [
                 'msg' => $message,
                 'no' => $number,
-            ]
+            ],
         ]);
     }
 }

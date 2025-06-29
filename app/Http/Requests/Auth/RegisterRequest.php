@@ -31,8 +31,8 @@ class RegisterRequest extends FormRequest
             'password' => 'required|max:255|confirmed|min:8',
             'login_type' => [
                 'required',
-                new Enum(LoginType::class)
-            ]
+                new Enum(LoginType::class),
+            ],
         ];
     }
 

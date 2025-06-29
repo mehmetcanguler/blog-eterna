@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Enums\ErrorMessages;
 use App\Enums\LoginType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\VerifyCodeRequest;
 use App\Services\External\EmailVerificationService;
 use App\Services\External\SmsVerificationService;
-use App\Services\External\VerificationService;
 use App\Support\Helpers\ApiResponse;
 use Auth;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
 class VerificationController extends Controller
@@ -19,8 +16,7 @@ class VerificationController extends Controller
     public function __construct(
         protected EmailVerificationService $emailVerificationService,
         protected SmsVerificationService $smsVerificationService
-    ) {
-    }
+    ) {}
 
     public function verifyCode(VerifyCodeRequest $request)
     {
@@ -40,7 +36,6 @@ class VerificationController extends Controller
             LoginType::PHONE => $this->smsVerificationService->sendVerification($user)
         };
 
-
         return ApiResponse::success();
     }
 
@@ -50,5 +45,4 @@ class VerificationController extends Controller
 
         return redirect(env('FRONT_URL'));
     }
-
 }

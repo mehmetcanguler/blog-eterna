@@ -61,7 +61,7 @@ class ApiResponse
             'data' => $collection->response()->getData()->data,
         ];
 
-        if (!empty($collection->response()->getData()->meta)) {
+        if (! empty($collection->response()->getData()->meta)) {
             $meta = $collection->response()->getData()->meta;
             $return['meta'] = $meta;
             unset($meta->links);

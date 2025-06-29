@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Enums;
 
 enum ErrorMessages: string
@@ -19,10 +20,8 @@ enum ErrorMessages: string
     case PhoneAlreadyVerified = 'errors.phone_already_verified';
     case InvalidVerificationCode = 'errors.invalid_verification_code';
 
-
     public function message(): string
     {
         return trans($this->value);
     }
-
 }

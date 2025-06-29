@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\VerificationCodeType;
-use Illuminate\Database\Eloquent\Model;
 
 class VerificationCode extends BaseModel
 {
@@ -21,7 +20,7 @@ class VerificationCode extends BaseModel
         return [
             'verified' => 'boolean',
             'expires_at' => 'datetime',
-            'type' => VerificationCodeType::class
+            'type' => VerificationCodeType::class,
         ];
 
     }

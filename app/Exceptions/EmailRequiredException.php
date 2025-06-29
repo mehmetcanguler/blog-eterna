@@ -3,7 +3,6 @@
 namespace App\Exceptions;
 
 use App\Enums\ErrorMessages;
-use Exception;
 
 class EmailRequiredException extends BaseException
 {

@@ -17,9 +17,10 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 #[ObservedBy(PostObserver::class)]
 class Post extends BaseModel implements HasMedia
 {
-    use InteractsWithMedia, Blameable, HasSlug;
+    use Blameable, HasSlug, InteractsWithMedia;
 
     public const MEDIA_COLLECTION_COVER = 'cover';
+
     public const MEDIA_COLLECTION_GALLERY = 'gallery';
 
     protected $fillable = [
@@ -27,19 +28,20 @@ class Post extends BaseModel implements HasMedia
         'title',
         'content',
         'published_at',
-        'status'
+        'status',
     ];
 
     protected $attributes = [
-        'status' => PostStatus::DRAFT
+        'status' => PostStatus::DRAFT,
     ];
 
     protected function casts(): array
     {
         return [
-            'status' => PostStatus::class
+            'status' => PostStatus::class,
         ];
     }
+
     protected function getSlugSource(): string
     {
         return 'title';
@@ -61,7 +63,7 @@ class Post extends BaseModel implements HasMedia
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Collection<string|UploadedFile> $images
+     * @param  \Illuminate\Database\Eloquent\Collection<string|UploadedFile>  $images
      */
     public function setGalleryImages(Collection $images): bool
     {
@@ -71,5 +73,4 @@ class Post extends BaseModel implements HasMedia
 
         return true;
     }
-
 }

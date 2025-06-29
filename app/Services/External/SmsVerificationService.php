@@ -2,7 +2,6 @@
 
 namespace App\Services\External;
 
-use App\Contracts\External\SmsServiceInterface;
 use App\Enums\VerificationCodeType;
 use App\Events\SmsVerificationRequested;
 use App\Exceptions\InvalidVerificationCodeException;
@@ -28,8 +27,8 @@ class SmsVerificationService
             ->where('verified', false)
             ->first();
 
-        if (!$verificationCode) {
-            throw new InvalidVerificationCodeException();
+        if (! $verificationCode) {
+            throw new InvalidVerificationCodeException;
         }
 
         $verificationCode->update(['verified' => true]);
@@ -39,11 +38,10 @@ class SmsVerificationService
         return true;
     }
 
-
     public function sendVerification(Authenticatable $user): void
     {
         if ($this->isVerified($user)) {
-            throw new PhoneAlreadyVerifiedException();
+            throw new PhoneAlreadyVerifiedException;
         }
 
         $verificationCode = VerificationCode::create([
@@ -58,5 +56,3 @@ class SmsVerificationService
 
     }
 }
-
-
