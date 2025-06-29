@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Reverb Bildirim Testi</title>
+</head>
+<body>
+    <div id="app">
+        <h1>Gelen Bildirim: {{ message }}</h1>
+    </div>
+
+    <!-- Vue 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- Laravel Echo (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/laravel-echo/dist/echo.iife.js"></script>
+
+    <script>
+        const { createApp, ref } = Vue;
+
+        createApp({
+            setup() {
+                const message = ref("Henüz bildirim yok");
+
+
+
+                window.Echo = new window.Echo.Echo({
+                    broadcaster: 'reverb',
+                    key: '8kwnjlkbwpmdzaim55su',
+                    wsHost: 'localhost',
+                    wsPort: 8080,
+                    wssPort: 8080,
+                    forceTLS: false,
+                    scheme: 'ws',
+                    authEndpoint: "http://blog.test/broadcasting/auth",
+                    auth: {
+                        headers: {
+                            Authorization: "Bearer " + token,
+                            Accept: "application/json"
+                        }
+                    }
+                });
+
+                window.Echo.private("notification." + userId)
+                    .listen("NotificationReceived", (e) => {
+                        console.log("Bildirim geldi:", e);
+                        message.value = e.message;
+                    });
+
+                return { message };
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

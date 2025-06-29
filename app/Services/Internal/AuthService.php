@@ -56,7 +56,7 @@ class AuthService
         $user = Auth::user();
 
         return [
-            'token' => $user->createToken($user->email)->plainTextToken,
+            'token' => $user->createToken('auth_token')->plainTextToken,
             'user' => UserResource::make($user),
         ];
     }
