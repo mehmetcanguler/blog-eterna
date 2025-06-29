@@ -9,8 +9,6 @@ class ActivityLogger implements Loggable
 {
     public function log(\Illuminate\Database\Eloquent\Model $model, \App\Enums\ModelEvent $event): void
     {
-        $withProperties = $model->toArray();
-
         activity()
             ->performedOn($model)
             ->causedBy(Auth::user())

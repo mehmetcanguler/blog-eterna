@@ -12,7 +12,8 @@ class LoginDTO extends BaseDTO
         public ?string $email,
         public string $password,
         public LoginType $loginType
-    ) {}
+    ) {
+    }
 
     public static function fromRequest(array $data): static
     {

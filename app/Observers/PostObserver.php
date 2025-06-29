@@ -15,7 +15,6 @@ class PostObserver
      */
     public function created(Post $post): void
     {
-        $this->logger->log($post, ModelEvent::CREATED);
     }
 
     /**
@@ -31,7 +30,6 @@ class PostObserver
      */
     public function deleted(Post $post): void
     {
-        $this->logger->log($post, ModelEvent::DELETED);
     }
 
     /**
@@ -39,7 +37,6 @@ class PostObserver
      */
     public function restored(Post $post): void
     {
-        $this->logger->log($post, ModelEvent::RESTORED);
     }
 
     /**
@@ -47,6 +44,5 @@ class PostObserver
      */
     public function forceDeleted(Post $post): void
     {
-        $this->logger->log($post, ModelEvent::FORCE_DELETED);
     }
 }

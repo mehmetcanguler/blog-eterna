@@ -15,7 +15,6 @@ class UserObserver
      */
     public function created(User $user): void
     {
-        $this->logger->log($user, ModelEvent::CREATED);
     }
 
     /**
@@ -31,7 +30,6 @@ class UserObserver
      */
     public function deleted(User $user): void
     {
-        $this->logger->log($user, ModelEvent::DELETED);
     }
 
     /**
@@ -39,7 +37,6 @@ class UserObserver
      */
     public function restored(User $user): void
     {
-        $this->logger->log($user, ModelEvent::RESTORED);
     }
 
     /**
@@ -47,6 +44,5 @@ class UserObserver
      */
     public function forceDeleted(User $user): void
     {
-        $this->logger->log($user, ModelEvent::FORCE_DELETED);
     }
 }

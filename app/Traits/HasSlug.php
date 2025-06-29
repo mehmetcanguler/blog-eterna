@@ -4,6 +4,9 @@ namespace App\Traits;
 
 use Illuminate\Support\Str;
 
+/**
+ * Slug oluşturmayı kolaylaştırmak için kullanılacak trait
+ */
 trait HasSlug
 {
     abstract protected function getSlugSource(): string;

@@ -8,4 +8,7 @@ return [
     'deleted' => 'Silindi',
     'restored' => 'Geri yüklendi',
     'force_deleted' => 'Kalıcı olarak silindi',
+    'admin' => 'Admin',
+    'user' => 'Kullanıcı',
+    'author' => 'Yazar',
 ];

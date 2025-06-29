@@ -4,16 +4,20 @@ namespace App\Models;
 
 use App\Enums\PostStatus;
 use App\Observers\PostObserver;
+use App\Policies\PostPolicy;
 use App\Traits\Blameable;
 use App\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+#[UsePolicy(PostPolicy::class)]
 #[ObservedBy(PostObserver::class)]
 class Post extends BaseModel implements HasMedia
 {
@@ -72,5 +76,10 @@ class Post extends BaseModel implements HasMedia
         }
 
         return true;
+    }
+
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class);
     }
 }

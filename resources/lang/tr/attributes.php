@@ -6,4 +6,9 @@ return [
     'name' => 'İsim',
     'phone' => 'Telefon',
     'login_type' => 'Giriş Tipi',
+    'title' => 'Başlık',
+    'content' => 'İçerik',
+    'cover_image' => 'Kapak Resmi',
+    'gallery_images' => 'Galeri Resimleri',
+    'categories' => 'Kategoriler',
 ];

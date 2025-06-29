@@ -13,4 +13,7 @@ return [
     'internal_server_error' => 'Sunucu hatası.',
     'email_required' => 'E-posta gereklidir.',
     'phone_required' => 'Telefon gereklidir.',
+    'phone_not_verified' => 'Telefon doğrulanmamış.',
+    'phone_already_verified' => 'Telefon zaten doğrulanmış.',
+    'invalid_verification_code' => 'Geçersiz doğrulama kodu.',
 ];
