@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Enums\LoginType;
+use App\Enums\RoleEnum;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -26,9 +29,11 @@ class UserFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => null,
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'login_type' => rand(0, 1) === 1 ? LoginType::EMAIL : LoginType::PHONE,
+            'email_verified_at' => now(),
+            'phone_verified_at' => now(),
         ];
     }
 
@@ -37,8 +42,15 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    public function configure(): static
+    {
+        return $this->afterCreating(function (User $user) {
+            $user->assignRole(rand(0, 1) === 1 ? RoleEnum::AUTHOR->value : RoleEnum::USER->value);
+        });
     }
 }

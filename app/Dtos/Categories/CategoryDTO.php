@@ -8,8 +8,7 @@ class CategoryDTO extends BaseDTO
 {
     public function __construct(
         public string $name
-    ) {
-    }
+    ) {}
 
     public static function fromRequest(array $data): static
     {

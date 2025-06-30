@@ -11,7 +11,8 @@ class LoginDTO extends BaseDTO
         public ?string $phone,
         public ?string $email,
         public string $password,
-        public LoginType $loginType
+        public LoginType $login_type,
+
     ) {
     }
 
@@ -21,17 +22,24 @@ class LoginDTO extends BaseDTO
             email: $data['email'] ?? null,
             phone: $data['phone'] ?? null,
             password: $data['password'],
-            loginType: LoginType::from($data['login_type'])
+            login_type: LoginType::from($data['login_type']),
         );
     }
 
     public function toArray(): array
     {
-        return [
+        $array = [
             'email' => $this->email,
             'phone' => $this->phone,
             'password' => $this->password,
-            'login_type' => $this->loginType,
+            'login_type' => $this->login_type,
         ];
+        if($this->login_type === LoginType::EMAIL) {
+           unset($array['phone']);
+        }
+        if($this->login_type === LoginType::PHONE) {
+            unset($array['email']);
+        }
+        return $array;
     }
 }

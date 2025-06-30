@@ -32,6 +32,7 @@ class LoginRequest extends FormRequest
                 'required',
                 new Enum(LoginType::class),
             ],
+
         ];
     }
 

@@ -15,6 +15,8 @@ Route::prefix('v1')->middleware(['throttle:api', 'api'])->group(function () {
 
         Route::middleware([EnsureContactIsVerified::class])->group(function () {
             Route::prefix('posts')->group(base_path('routes/api/v1/posts.php'));
+            Route::prefix('comments')->group(base_path('routes/api/v1/comments.php'));
+            Route::prefix('categories')->group(base_path('routes/api/v1/categories.php'));
         });
     });
 });

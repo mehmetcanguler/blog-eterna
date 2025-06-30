@@ -10,18 +10,17 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class PostDTO extends BaseDTO
 {
     /**
-     * @param  \Illuminate\Database\Eloquent\Collection<UploadedFile>  $galleryImages
+     * @param   array<UploadedFile>  $galleryImages
      * @param  \Illuminate\Database\Eloquent\Collection<\App\Models\Category>  $categories
      */
     public function __construct(
         public string $title,
         public string $content,
         public UploadedFile $coverImage,
-        public array|Collection $galleryImages,
+        public array $galleryImages,
         public array|Collection $categories
     ) {
     }
-
 
     public static function fromRequest(array $data): static
     {
@@ -41,7 +40,7 @@ class PostDTO extends BaseDTO
             'content' => $this->content,
             'cover_image' => $this->coverImage,
             'gallery_images' => $this->galleryImages,
-            'categories' => $this->categories
+            'categories' => $this->categories,
         ];
     }
 }

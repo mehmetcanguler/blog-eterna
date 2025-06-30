@@ -9,6 +9,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -21,6 +22,8 @@ class Handler
             $exception instanceof AuthenticationException => ApiResponse::error(ErrorMessages::Unauthenticated->message(), 401),
 
             $exception instanceof AuthorizationException => ApiResponse::error(ErrorMessages::Unauthorized->message(), 403),
+
+            $exception instanceof AccessDeniedHttpException => ApiResponse::error(ErrorMessages::Unauthorized->message(), 403),
 
             $exception instanceof BaseException => ApiResponse::error($exception->getMessage(), $exception->getCode()),
 

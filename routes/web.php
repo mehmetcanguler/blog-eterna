@@ -1,5 +1,5 @@
 <?php
 
-Route::get('socket-test', function () {
-    return view('socket-test');
-});
+Route::get('/{any}', function () {
+    return view('app');
+})->where('any', '.*');

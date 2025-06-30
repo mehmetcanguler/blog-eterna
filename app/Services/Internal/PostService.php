@@ -2,59 +2,140 @@
 
 namespace App\Services\Internal;
 
+use App\Contracts\Internal\PostServiceInterface;
+use App\Dtos\BaseDTO;
 use App\Dtos\Posts\PostDTO;
 use App\Dtos\Posts\PostListDTO;
 use App\Dtos\Posts\PostUpdateDTO;
+use App\Enums\PostStatus;
 use App\Models\Post;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use function Pest\Laravel\instance;
 
-class PostService
+/**
+ * @extends BaseService<Post, PostDTO, PostUpdateDTO, PostListDTO>
+ */
+class PostService extends BaseService implements PostServiceInterface
 {
-    public function all(PostListDTO $data): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    public function __construct(Post $model)
     {
-        $query = Post::query()->with('categories');
+        $this->model = $model;
+        parent::__construct($model);
+    }
 
+    /**
+     * @param  PostListDTO  $data
+     * @return LengthAwarePaginator<Post>
+     */
+    public function all(BaseDTO $data): LengthAwarePaginator
+    {
+        $query = $this->model->query()->with('categories');
+
+        if (!Auth::user()->can('publish', $this->model)) {
+            $query->where(function ($query) {
+                $query->where('status', PostStatus::PUBLISHED)
+                    ->orWhere(function ($query) {
+                        $query->where('author_id', Auth::id());
+                    });
+            });
+        }
         if ($data->search) {
             $query->where('title', 'like', '%' . $data->search . '%')
                 ->orWhere('content', 'like', '%' . $data->search . '%');
         }
+
         return $query->paginate($data->per_page);
-
     }
-    public function create(PostDTO $data): Post
+
+    /**
+     * @param  PostDTO  $data
+     */
+    public function create(BaseDTO $data): Post
     {
-        $post = Post::create([
+        $model = $this->model::create([
             'title' => $data->title,
-            'content' => $data->content
+            'content' => $data->content,
+            'author_id' => Auth::user()->id,
         ]);
 
-        $post->setCoverImage($data->coverImage);
-        $post->setGalleryImages($data->galleryImages);
-        $post->categories()->sync($data->categories);
+        if (Auth::user()->can('publish', $model)) {
+            $model->status = PostStatus::PUBLISHED;
+            $model->published_at = now();
+            $model->save();
+        }
+        $model->setCoverImage($data->coverImage);
+        $model->setGalleryImages($data->galleryImages);
+        $model->categories()->sync($data->categories);
 
-        return $post;
+        return $model;
     }
 
-    public function show(Post $post): Post
+    /**
+     * @param  Post  $model
+     */
+    public function show(Model $model): Post
     {
-        $post->load('categories');
-        return $post;
+        $model = $this->model->with('categories')
+            ->find($model->id);
+
+        if (!Auth::user()->can('publish', $this->model)) {
+            if ($model->status !== PostStatus::PUBLISHED && $model->author_id !== Auth::user()->id) {
+                throw new AccessDeniedHttpException();
+            }
+        }
+
+        return $model;
+
     }
 
-    public function update(Post $post, PostUpdateDTO $data): Post
+    /**
+     * @param  Post  $model
+     * @param  PostUpdateDTO  $data
+     */
+    public function update(Model $model, BaseDTO $data): Post
     {
-        $post->update([
+        $model->update([
             'title' => $data->title,
-            'content' => $data->content
+            'content' => $data->content,
         ]);
 
-        $post->categories()->sync($data->categories);
-        return $post;
+        if (!Auth::user()->can('publish', $model)) {
+            $model->status = PostStatus::DRAFT;
+            $model->save();
+        }
+
+        $model->categories()->sync($data->categories);
+
+        return $model;
     }
 
-    public function delete(Post $post): bool
+    /**
+     * @param  Post  $model
+     */
+    public function delete(Model|Post $model): bool
     {
-        $post->categories()->detach();
+        $model->categories()->detach();
 
-        return $post->delete();
+        return $model->delete();
+    }
+
+    public function publish(Post $model): Post
+    {
+        $model->status = PostStatus::PUBLISHED;
+        $model->published_at = now();
+        $model->save();
+
+        return $model;
+    }
+    public function unPublish(Post $model): Post
+    {
+        $model->status = PostStatus::DRAFT;
+        $model->save();
+
+        return $model;
     }
 }

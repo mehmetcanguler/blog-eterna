@@ -18,9 +18,9 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'email' => $this->when($this->login_type === LoginType::EMAIL, $this->email),
-            'phone' => $this->when($this->login_type === LoginType::PHONE, $this->phone),
-            'role' => $this->role,
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'role' => $this->role() ? RoleResource::make($this->role()) : [],
         ];
     }
 }

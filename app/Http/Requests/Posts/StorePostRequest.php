@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Posts;
 
 use App\Dtos\Posts\PostDTO;
+use App\Rules\UniqueSlugPerOwner;
+use Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StorePostRequest extends FormRequest
@@ -23,11 +25,20 @@ class StorePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|max:255',
+            'title' => [
+                'required',
+                'max:255',
+                new UniqueSlugPerOwner(
+                    modelClass: \App\Models\Post::class,
+                    ownerColumn: 'author_id',
+                    ownerId: Auth::user()->id,
+                    slugColumn: 'slug',
+                ),
+            ],
             'content' => 'required|max:10000',
-            'cover_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'cover_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'gallery_images' => 'required|array',
-            'gallery_images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'gallery_images.*' => 'required|image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
             'categories' => 'required|array',
             'categories.*' => 'exists:categories,id',
         ];

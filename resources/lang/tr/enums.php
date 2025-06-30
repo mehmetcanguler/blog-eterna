@@ -11,4 +11,5 @@ return [
     'admin' => 'Admin',
     'user' => 'Kullanıcı',
     'author' => 'Yazar',
+    'comment' => 'Yorum',
 ];

@@ -10,6 +10,7 @@ use App\Traits\HasSlug;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -21,7 +22,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 #[ObservedBy(PostObserver::class)]
 class Post extends BaseModel implements HasMedia
 {
-    use Blameable, HasSlug, InteractsWithMedia;
+    use Blameable, HasSlug, InteractsWithMedia, HasFactory;
 
     public const MEDIA_COLLECTION_COVER = 'cover';
 
@@ -51,7 +52,7 @@ class Post extends BaseModel implements HasMedia
         return 'title';
     }
 
-    public function coverImage(): Media
+    public function coverImage(): ?Media
     {
         return $this->getMedia(self::MEDIA_COLLECTION_COVER)->first();
     }
@@ -63,14 +64,21 @@ class Post extends BaseModel implements HasMedia
 
     public function setCoverImage(string|UploadedFile $image): Media
     {
+        if (!$this->exists) {
+            $this->save();
+        }
+
         return $this->addMedia($image)->toMediaCollection(self::MEDIA_COLLECTION_COVER);
     }
 
     /**
-     * @param  \Illuminate\Database\Eloquent\Collection<string|UploadedFile>  $images
+     *  @param  array<UploadedFile> <string|UploadedFile>  $images
      */
-    public function setGalleryImages(Collection $images): bool
+    public function setGalleryImages(array $images): bool
     {
+        if (!$this->exists) {
+            $this->save();
+        }
         foreach ($images as $image) {
             $this->addMedia($image)->toMediaCollection(self::MEDIA_COLLECTION_GALLERY);
         }
@@ -81,5 +89,15 @@ class Post extends BaseModel implements HasMedia
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class);
+    }
+
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
+use App\Enums\RoleEnum;
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class PostPolicy
 {
@@ -13,7 +13,7 @@ class PostPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->role()->hasPermissionTo('posts.view_any');
+        return $user->hasPermissionTo('posts.view_any');
     }
 
     /**
@@ -21,7 +21,7 @@ class PostPolicy
      */
     public function view(User $user, Post $post): bool
     {
-        return $user->role()->hasPermissionTo('posts.view');
+        return $user->hasPermissionTo('posts.view');
     }
 
     /**
@@ -29,7 +29,7 @@ class PostPolicy
      */
     public function create(User $user): bool
     {
-        return $user->role()->hasPermissionTo('posts.create');
+        return $user->hasPermissionTo('posts.create');
     }
 
     /**
@@ -37,7 +37,11 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-        return $user->role()->hasPermissionTo('posts.update');
+        if ($user->role()->name == RoleEnum::AUTHOR->value) {
+            return $user->hasPermissionTo('posts.update') && $post->author_id == $user->id;
+        }
+
+        return $user->hasPermissionTo('posts.update');
     }
 
     /**
@@ -45,6 +49,11 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return $user->role()->hasPermissionTo('posts.delete');
+        return $user->hasPermissionTo('posts.delete');
+    }
+
+    public function publish(User $user, Post $post): bool
+    {
+        return $user->hasPermissionTo('posts.publish');
     }
 }

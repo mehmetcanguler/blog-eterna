@@ -49,7 +49,7 @@ class ApiResponse
 
     public static function deleted(?string $message = null): JsonResponse
     {
-        return self::success($message ?? trans('apiresponse.deleted_message'));
+        return self::item(null, $message ?? trans('apiresponse.deleted_message'));
     }
 
     public static function collection(ResourceCollection $collection, ?string $message = null): JsonResponse
@@ -61,7 +61,7 @@ class ApiResponse
             'data' => $collection->response()->getData()->data,
         ];
 
-        if (! empty($collection->response()->getData()->meta)) {
+        if (!empty($collection->response()->getData()->meta)) {
             $meta = $collection->response()->getData()->meta;
             $return['meta'] = $meta;
             unset($meta->links);

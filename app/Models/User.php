@@ -13,14 +13,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 #[ObservedBy(UserObserver::class)]
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasApiTokens, HasFactory, HasUuids, LogsActivity, Notifiable, SoftDeletes, HasRoles;
+    use HasApiTokens, HasFactory, HasRoles, HasUuids, LogsActivity, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -70,9 +69,13 @@ class User extends Authenticatable implements MustVerifyEmail
             ->logOnlyDirty();
     }
 
-    public function role(): ?Role
+    public function role()
     {
-        return $this->roles()->first();
+        return $this->roles->first();
     }
 
+    public function getDefaultGuardName(): string
+    {
+        return 'sanctum';
+    }
 }

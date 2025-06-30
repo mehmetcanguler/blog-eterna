@@ -19,6 +19,7 @@ return new class extends Migration
             $table->longText('content');
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
+            $table->tinyInteger('status');
 
             $table->uuid('created_by');
             $table->uuid('updated_by');

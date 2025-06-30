@@ -5,6 +5,7 @@ namespace App\Services\Internal;
 use App\Dtos\Auth\LoginDTO;
 use App\Dtos\Auth\RegisterDTO;
 use App\Enums\LoginType;
+use App\Enums\RoleEnum;
 use App\Exceptions\EmailRequiredException;
 use App\Exceptions\InvalidCredentialsException;
 use App\Exceptions\PhoneRequiredException;
@@ -16,40 +17,42 @@ class AuthService
 {
     public function register(RegisterDTO $data): User
     {
-        if ($data->loginType === LoginType::EMAIL && $data->email === null) {
+        if ($data->login_type === LoginType::EMAIL && $data->email === null) {
             throw new EmailRequiredException;
         }
-        if ($data->loginType === LoginType::PHONE && $data->phone === null) {
+        if ($data->login_type === LoginType::PHONE && $data->phone === null) {
             throw new PhoneRequiredException;
         }
 
-        if ($data->loginType === LoginType::EMAIL) {
-            $data->phone = null;
-        }
+        $user = User::create($data->toArray());
 
-        if ($data->loginType === LoginType::PHONE) {
-            $data->email = null;
-        }
+        $role = match ($data->role_type) {
+            RoleEnum::AUTHOR => RoleEnum::AUTHOR,
+            RoleEnum::USER => RoleEnum::USER,
+        };
 
-        return User::create($data->toArray());
+        $user->assignRole($role->value);
+
+        return $user;
     }
 
     public function login(LoginDTO $data)
     {
-        if ($data->loginType === LoginType::EMAIL && $data->email === null) {
+        if ($data->login_type === LoginType::EMAIL && $data->email === null) {
             throw new EmailRequiredException;
         }
-        if ($data->loginType === LoginType::PHONE && $data->phone === null) {
+        if ($data->login_type === LoginType::PHONE && $data->phone === null) {
             throw new PhoneRequiredException;
         }
-        if ($data->loginType === LoginType::EMAIL) {
+        if ($data->login_type === LoginType::EMAIL) {
             $data->phone = null;
         }
 
-        if ($data->loginType === LoginType::PHONE) {
+        if ($data->login_type === LoginType::PHONE) {
             $data->email = null;
         }
-        if (! Auth::attempt($data->toArray())) {
+
+        if (!Auth::attempt($data->toArray())) {
             throw new InvalidCredentialsException;
         }
 

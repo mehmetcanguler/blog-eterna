@@ -5,7 +5,6 @@ namespace App\Dtos\Posts;
 use App\Dtos\BaseDTO;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class PostUpdateDTO extends BaseDTO
 {
@@ -16,9 +15,7 @@ class PostUpdateDTO extends BaseDTO
         public string $title,
         public string $content,
         public array|Collection $categories
-    ) {
-    }
-
+    ) {}
 
     public static function fromRequest(array $data): static
     {
@@ -34,7 +31,7 @@ class PostUpdateDTO extends BaseDTO
         return [
             'title' => $this->title,
             'content' => $this->content,
-            'categories' => $this->categories
+            'categories' => $this->categories,
         ];
     }
 }

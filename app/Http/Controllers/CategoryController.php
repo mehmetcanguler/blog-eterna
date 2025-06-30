@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Contracts\Internal\CategoryServiceInterface;
 use App\Http\Requests\Categories\ListCategoryRequest;
 use App\Http\Requests\Categories\StoreCategoryRequest;
 use App\Http\Requests\Categories\UpdateCategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
-use App\Services\Internal\CategoryService;
 use App\Support\Helpers\ApiResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class CategoryController extends Controller
 {
     public function __construct(
-        private CategoryService $categoryService
+        private CategoryServiceInterface $categoryService
     ) {
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -50,7 +49,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        Gate::authorize('view', Category::class);
+        Gate::authorize('view', $category);
 
         return ApiResponse::item(
             CategoryResource::make(
@@ -64,7 +63,7 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        Gate::authorize('update', Category::class);
+        Gate::authorize('update', $category);
 
         $this->categoryService->update($category, $request->toDto());
 
@@ -76,7 +75,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        Gate::authorize('delete', Category::class);
+        Gate::authorize('delete', $category);
 
         $this->categoryService->delete($category);
 

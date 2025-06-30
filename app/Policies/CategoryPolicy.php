@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\Category;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class CategoryPolicy
 {
@@ -13,7 +12,7 @@ class CategoryPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->role()->hasPermissionTo('categories.view_any');
+        return $user->hasPermissionTo('categories.view_any');
     }
 
     /**
@@ -21,7 +20,7 @@ class CategoryPolicy
      */
     public function view(User $user, Category $category): bool
     {
-        return $user->role()->hasPermissionTo('categories.view');
+        return $user->hasPermissionTo('categories.view');
     }
 
     /**
@@ -29,7 +28,7 @@ class CategoryPolicy
      */
     public function create(User $user): bool
     {
-        return $user->role()->hasPermissionTo('categories.create');
+        return $user->hasPermissionTo('categories.create');
     }
 
     /**
@@ -37,7 +36,7 @@ class CategoryPolicy
      */
     public function update(User $user, Category $category): bool
     {
-        return $user->role()->hasPermissionTo('categories.update');
+        return $user->hasPermissionTo('categories.update');
     }
 
     /**
@@ -45,7 +44,6 @@ class CategoryPolicy
      */
     public function delete(User $user, Category $category): bool
     {
-        return $user->role()->hasPermissionTo('categories.delete');
+        return $user->hasPermissionTo('categories.delete');
     }
-
 }

@@ -4,6 +4,7 @@ namespace App\Dtos\Auth;
 
 use App\Dtos\BaseDTO;
 use App\Enums\LoginType;
+use App\Enums\RoleEnum;
 
 class RegisterDTO extends BaseDTO
 {
@@ -12,7 +13,8 @@ class RegisterDTO extends BaseDTO
         public ?string $phone,
         public ?string $email,
         public string $password,
-        public LoginType $loginType
+        public LoginType $login_type,
+        public RoleEnum $role_type
     ) {}
 
     public static function fromRequest(array $data): static
@@ -22,7 +24,9 @@ class RegisterDTO extends BaseDTO
             $data['phone'] ?? null,
             $data['email'] ?? null,
             $data['password'],
-            LoginType::from($data['login_type'])
+            LoginType::from($data['login_type']),
+            RoleEnum::from($data['role_type']),
+
         );
     }
 
@@ -33,7 +37,7 @@ class RegisterDTO extends BaseDTO
             'phone' => $this->phone,
             'email' => $this->email,
             'password' => $this->password,
-            'login_type' => $this->loginType,
+            'login_type' => $this->login_type,
         ];
     }
 }

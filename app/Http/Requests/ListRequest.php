@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Dtos\FilterDTO;
-use App\Dtos\ListDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ListRequest extends FormRequest
@@ -35,10 +33,5 @@ class ListRequest extends FormRequest
             'search' => trans('attributes.search'),
             'per_page' => trans('attributes.per_page'),
         ];
-    }
-
-    public function toDto(): ListDTO
-    {
-        return ListDTO::fromRequest($this->validated());
     }
 }
