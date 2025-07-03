@@ -18,10 +18,10 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-## 4. Veritabanı Tabloları ve Örnek Verilerin Oluşturulması
+## 4. Veritabanı Tablolarının yüklenmesi
 
 ```
-php artisan migrate --seed
+php artisan migrate
 ```
 
 ## 5. Rol ve İzinlerin Yüklenmesi
@@ -33,9 +33,13 @@ Sistemde kullanılacak rol ve izinleri yüklemek için aşağıdaki komutu çal�
 php artisan role-permission:import
 ```
 
+## 6. Fake verilerin içeri aktarılması  
+```
+php artisan db:seed
+```
 ---
 
-## 6. Socket (Reverb) Testi
+## 7. Socket (Reverb) Testi
 
 ### Bağımlılıkların Kurulması
 
@@ -65,7 +69,7 @@ php artisan reverb:start
 
 ---
 
-## 7. Yönetici Kullanıcı Bilgileri
+## 8. Yönetici Kullanıcı Bilgileri
 
 ```
 email: admin@blog.com  
@@ -75,7 +79,7 @@ login_type: 1 // email
 
 ---
 
-## 8. Görev Zamanlayıcısını Çalıştırmak
+## 9. Görev Zamanlayıcısını Çalıştırmak
 
 ```
 php artisan schedule:work
@@ -83,13 +87,13 @@ php artisan schedule:work
 
 ---
 
-## 9. Postman Dokümantasyonu
+## 10. Postman Dokümantasyonu
 
 `docs/postman` klasörü içerisinde örnek `Postman` isteklerini içeren JSON dosyaları bulunmaktadır.
 
 ---
 
-## 10. Kuyrukları ve Bildirimleri Dinlemek
+## 11. Kuyrukları ve Bildirimleri Dinlemek
 
 ```
 php artisan queue:work
