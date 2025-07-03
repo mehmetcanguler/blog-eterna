@@ -103,7 +103,7 @@ php artisan queue:work
 
 # Proje Mimarisi Hakkında
 
-- Projede **OOP (Nesne Yönelimli Programlama)** standartlarına uygun geliştirme yapılmıştır.
+- Projede **OOP (Nesne Yönelimli Programlama)** standartlarına ve **SOLID presinplerine** uygun geliştirme yapılmıştır.
 - **Soyutlamalar**, `Contracts` klasörü altında tanımlanarak bağımlılıklar esnek şekilde projeye enjekte edilmiştir.
 - Laravel’in sunduğu olanaklar doğrultusunda `Repository` yerine doğrudan `Model` sınıfları üzerinden veri işlemleri gerçekleştirilmiş, **iş mantığı servis katmanına** taşınmıştır.
 
@@ -146,7 +146,7 @@ php artisan queue:work
 
 ## Servis Sağlayıcılar (Providers)
 
-- Arayüzlerin ilgili sınıflara bağlanması `AppServiceProvider` gibi servis sağlayıcılar üzerinden yapılır.
+- Arayüzlerin ilgili sınıflara bağlanması `AppServiceProvider` `ServiceServiceProvider` gibi servis sağlayıcılar üzerinden yapılır.
 
 ## Trait Kullanımı
 
