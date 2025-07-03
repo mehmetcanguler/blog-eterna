@@ -22,7 +22,7 @@ class VerifyCodeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => 'required|size:6|string|integer',
+            'code' => 'required|string|integer',
         ];
     }
 }

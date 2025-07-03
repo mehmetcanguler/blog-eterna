@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Enums\LoginType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\VerifyCodeRequest;
-use App\Services\External\EmailVerificationService;
-use App\Services\External\SmsVerificationService;
+use App\Services\External\Verifications\EmailVerificationService;
+use App\Services\External\Verifications\SmsVerificationService;
 use App\Support\Helpers\ApiResponse;
 use Auth;
 use Illuminate\Http\Request;
@@ -16,7 +16,8 @@ class VerificationController extends Controller
     public function __construct(
         protected EmailVerificationService $emailVerificationService,
         protected SmsVerificationService $smsVerificationService
-    ) {}
+    ) {
+    }
 
     public function verifyCode(VerifyCodeRequest $request)
     {

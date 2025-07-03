@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\External;
+namespace App\Services\External\Verifications;
 
 use App\Exceptions\EmailAlreadyVerifiedException;
 use App\Exceptions\EmailNotVerifiedException;

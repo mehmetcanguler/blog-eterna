@@ -21,10 +21,10 @@ class EnsureContactIsVerified
     {
         $user = Auth::user();
 
-        if ($user->login_type === LoginType::EMAIL && ! $request->user()->hasVerifiedEmail()) {
+        if ($user->login_type === LoginType::EMAIL && !$request->user()->hasVerifiedEmail()) {
             throw new EmailNotVerifiedException;
         }
-        if ($user->login_type === LoginType::PHONE && ! $request->user()->hasVerifiedPhone()) {
+        if ($user->login_type === LoginType::PHONE && !$request->user()->phone_verified_at) {
             throw new PhoneNotVerifiedException;
         }
 

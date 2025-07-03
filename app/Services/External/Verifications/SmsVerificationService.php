@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\External;
+namespace App\Services\External\Verifications;
 
 use App\Enums\VerificationCodeType;
 use App\Events\SmsVerificationRequested;

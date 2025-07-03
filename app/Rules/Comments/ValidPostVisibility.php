@@ -24,8 +24,7 @@ class ValidPostVisibility implements ValidationRule
         if (!$post) {
             $fail(__('validation.exists', ['attribute' => __("attributes.$attribute")]));
         }
-
-        if (!Auth::user()->can('publish', $post)) {
+        if (!Auth::user()->can('publish', $post) && $post->status !== PostStatus::PUBLISHED) {
             if ($post->author_id !== Auth::id()) {
                 $fail(__('validation.exists', ['attribute' => __("attributes.$attribute")]));
             }
