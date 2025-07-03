@@ -44,7 +44,7 @@
 							"formdata": [
 								{
 									"key": "email",
-									"value": "admin@blog.com",
+									"value": "mehmet3@blog.com",
 									"type": "text",
 									"disabled": true
 								},
@@ -200,6 +200,16 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "code",
+									"value": "216303",
+									"type": "text"
+								}
+							]
+						},
 						"url": {
 							"raw": "{{baseUrl}}verification/verify-code",
 							"host": [
@@ -636,21 +646,21 @@
 								{
 									"key": "cover_image",
 									"type": "file",
-									"src": "/Users/mehmetcan/Documents/98c12133-8f02-4818-9ce1-e66411ced5ca.jpeg"
+									"src": "/Users/mehmetcan/Documents/1_org_zoom.webp"
 								},
 								{
 									"key": "gallery_images[]",
 									"type": "file",
-									"src": "/Users/mehmetcan/Documents/01019-1.webp"
+									"src": "/Users/mehmetcan/Documents/2e2433ec-398c-4e84-b3b9-14dbeb660ca3.jpeg"
 								},
 								{
 									"key": "gallery_images[]",
 									"type": "file",
-									"src": "/Users/mehmetcan/Documents/123.jpeg"
+									"src": "/Users/mehmetcan/Documents/2e2433ec-398c-4e84-b3b9-14dbeb660ca3.jpeg"
 								},
 								{
 									"key": "categories[]",
-									"value": "0197c104-c1f8-705e-b868-b52bc342433e",
+									"value": "0197c1c2-8893-733b-841f-e32740387761",
 									"type": "text"
 								}
 							]
@@ -753,7 +763,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "0197c105-6497-7247-add7-aea5a9bfc37f"
+									"value": "0197c1c2-8a08-7214-8274-2cdb431f9f59"
 								}
 							]
 						}
@@ -934,7 +944,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"content\" : \"Deneme Yorum\",\n    \"post_id\" : \"0197c163-abcf-712d-9f90-195515ee7a8a\"\n}",
+							"raw": "{\n    \"content\" : \"Deneme Yorum 2356235\",\n    \"post_id\" : \"0197c784-dc0a-73a4-abcb-944f113e2f2b\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1145,6 +1155,90 @@
 								{
 									"key": "id",
 									"value": "0197c132-1f67-72a0-a2da-222ae2828c97"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notifications",
+			"item": [
+				{
+					"name": "all",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{baseUrl}}notifications",
+							"host": [
+								"{{baseUrl}}notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "read",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}notifications/:id/read",
+							"host": [
+								"{{baseUrl}}notifications"
+							],
+							"path": [
+								":id",
+								"read"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
 								}
 							]
 						}

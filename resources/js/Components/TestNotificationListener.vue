@@ -9,7 +9,6 @@
 import { ref, onMounted } from 'vue'
 import Echo from 'laravel-echo'
 
-// Kullanıcı ve token meta tag üzerinden alınır
 const userId = "0197bd15-7d7f-73a8-9ea8-dfd32c18295d";
 const token = "1|uUrZbcZUJnJ4ScOOdDJU3YyFHrsQD3M2pwIpYYQ964c205fd"
 

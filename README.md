@@ -1,61 +1,176 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Kurulum ve Başlangıç Rehberi
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 1. Bağımlılıkların Kurulumu
 
-## About Laravel
+```
+composer install
+```
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 2. Ortam Dosyası Oluşturma
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```
+cp .env.example .env
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 3. Uygulama Anahtarı Oluşturma
 
-## Learning Laravel
+```
+php artisan key:generate
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 4. Veritabanı Tabloları ve Örnek Verilerin Oluşturulması
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```
+php artisan migrate --seed
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 5. Rol ve İzinlerin Yüklenmesi
 
-## Laravel Sponsors
+Sistemde kullanılacak rol ve izinleri yüklemek için aşağıdaki komutu çalıştırmalısınız.  
+**⚠️ Bu adımı atlamanız durumunda hata alırsınız.**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```
+php artisan role-permission:import
+```
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 6. Socket (Reverb) Testi
 
-## Contributing
+### Bağımlılıkların Kurulması
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```
+npm install
+```
 
-## Code of Conduct
+### Yapının Derlenmesi
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```
+npm run build
+```
 
-## Security Vulnerabilities
+### Geliştirme Ortamında Çalıştırma
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```
+npm run dev
+```
 
-## License
+### Reverb Başlatma
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```
+php artisan reverb:start
+```
+
+> Socket testini gerçekleştirmek için `TestNotificationListener.vue` dosyasındaki ilgili alanlara `Postman` üzerinden giriş yaptıktan sonra `id` ve `token` değerlerini string olarak yapıştırabilirsiniz.
+
+---
+
+## 7. Yönetici Kullanıcı Bilgileri
+
+```
+email: admin@blog.com  
+password: password  
+login_type: 1 // email
+```
+
+---
+
+## 8. Görev Zamanlayıcısını Çalıştırmak
+
+```
+php artisan schedule:work
+```
+
+---
+
+## 9. Postman Dokümantasyonu
+
+`docs/postman` klasörü içerisinde örnek `Postman` isteklerini içeren JSON dosyaları bulunmaktadır.
+
+---
+
+## 10. Kuyrukları ve Bildirimleri Dinlemek
+
+```
+php artisan queue:work
+```
+
+---
+
+# Proje Mimarisi Hakkında
+
+- Projede **OOP (Nesne Yönelimli Programlama)** standartlarına uygun geliştirme yapılmıştır.
+- **Soyutlamalar**, `Contracts` klasörü altında tanımlanarak bağımlılıklar esnek şekilde projeye enjekte edilmiştir.
+- Laravel’in sunduğu olanaklar doğrultusunda `Repository` yerine doğrudan `Model` sınıfları üzerinden veri işlemleri gerçekleştirilmiş, **iş mantığı servis katmanına** taşınmıştır.
+
+## Generic Service Yapısı
+
+```php
+/**
+ * @extends ServiceInterface<Post, PostDTO, PostUpdateDTO, PostListDTO>
+ */
+```
+
+- Bu sayede **tip güvenliği** sağlanmış ve **IDE desteği** artırılmıştır.
+- `BaseService` üzerinden tüm ortak servis davranışları soyutlanmış; `CategoryService` gibi özel servisler hem `BaseService`'ten kalıtılarak hem de kendi `Interface`’leri implement edilerek yapılandırılmıştır.
+- Model, servis içerisine constructor’da enjekte edilerek yeniden kod yazma ihtiyacı ortadan kaldırılmıştır.
+
+## DTO (Data Transfer Object) Kullanımı
+
+- Gelen veriler `DTO`’lara çevrilerek tip güvenliği sağlanır.
+- `BaseDTO`, `BaseEnum`, `BaseValueObjectData` gibi sınıflarla ortak davranışlar soyutlanır.
+- `Trait` ve `Abstract` sınıflar yardımıyla tekrar eden kod yazımı minimize edilir, **SOLID prensiplerine uygun** geliştirme yapılır.
+
+## Hata Yönetimi
+
+- `Exceptions` altında özel exception sınıfları ve handler yer alır.
+- Özel hata sınıfları ile dış dünyaya anlamlı mesajlar dönülür.
+
+## BaseModel Kullanımı
+
+- Ortak `trait` ve method'lar `BaseModel` üzerinden yönetilir.
+- Örneğin `HasUuid` trait’i sayesinde tüm modeller UUID kullanır.
+
+## Observer ve Rule Kullanımı
+
+- Laravel observer’ları ile model aksiyonları öncesi/sonrası işlemler yapılabilir.
+- `Rules` klasöründe özel validation kuralları tanımlanabilir.
+
+## Bildirim Sistemi
+
+- `Notifications/SendCommentNotification` sınıfı ile aynı anda **mail**, **veritabanı** ve **broadcast (socket)** üzerinden bildirim gönderilir.
+
+## Servis Sağlayıcılar (Providers)
+
+- Arayüzlerin ilgili sınıflara bağlanması `AppServiceProvider` gibi servis sağlayıcılar üzerinden yapılır.
+
+## Trait Kullanımı
+
+- Ortak davranışlar trait olarak tanımlanıp modellerde tekrar tekrar kullanılabilir hale getirilmiştir.
+
+## Route Yönetimi
+
+- `routes/api/v1/` altına route dosyaları parçalanarak eklenir.
+- `api.php` dosyasından bu parçalar dahil edilerek daha okunabilir ve yönetilebilir bir yapı kurulmuştur.
+
+## Request Sınıfı Kullanımı
+
+- Gelen veriler `Request` sınıflarında `toDto()` methodu ile DTO’ya çevrilir.
+- Controller’ların tek görevi veriyi alıp ilgili servise iletmek ve yetkilendirme yapmaktır.
+
+## Yetki ve İzin Yönetimi
+
+- `config/roles.php` dosyasında roller ve izinler tanımlanmıştır.
+- `RolePermissionImportCommand` ile izinler otomatik import edilir ve sade bir yapı sağlanır.
+
+---
+
+## Genel Bilgilendirme
+
+Bu yapı sayesinde;
+
+- Kod tekrarından kaçınılır,
+- SOLID prensiplerine uygun bir yapı oluşturulur,
+- Esnek, test edilebilir ve sürdürülebilir bir proje altyapısı sağlanmış olur.
+
+> Sorularınız olursa çekinmeden iletebilirsiniz.
